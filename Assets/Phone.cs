@@ -7,6 +7,7 @@ public class Phone : MonoBehaviour
     public AudioClip phoneRingTone;
     public AudioClip popUpSound;
     public AudioClip angryPhoneCall;
+    public AudioClip happyPhoneCall;
     private static AudioSource audio;
 
     public Transform cam;
@@ -14,7 +15,9 @@ public class Phone : MonoBehaviour
     public float offset;
 
     public Transform phoneSnap;
+    public enum MessageType {Angry, Neutral, Happy}
 
+    public MessageType currentMessageType = MessageType.Neutral;
     void Start()
     {
         audio = GetComponent<AudioSource>();
@@ -32,13 +35,23 @@ public class Phone : MonoBehaviour
     {
         audio.clip = phoneRingTone;
         audio.Play();
-        Invoke("PlayMessageSound",4);
     }
 
     public void PlayMessageSound()
     {
         audio.Stop();
         audio.PlayOneShot(popUpSound);
-        audio.PlayOneShot(angryPhoneCall);
+        switch (currentMessageType )
+        {
+            case MessageType.Angry:
+                audio.PlayOneShot(angryPhoneCall); 
+                break;
+            case MessageType.Happy:
+                //audio.PlayOneShot(happyPhoneCall); 
+                break;
+        }
+
+
+
     }
 }

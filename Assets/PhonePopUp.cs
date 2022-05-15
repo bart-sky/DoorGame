@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 
 public class PhonePopUp : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class PhonePopUp : MonoBehaviour
     public string phoneText;
     public TextMeshProUGUI textUI;
     public GameObject popUpUI;
-    
-    // Start is called before the first frame update
+
+        // Start is called before the first frame update
     void Start()
     {
         phone = GetComponent<Phone>();
@@ -26,9 +27,10 @@ public class PhonePopUp : MonoBehaviour
 
     public void ShowWinScreen()
     {
-        
-        Invoke(nameof(PopUpScreen), 3);
-        print("Show win ui");
+        phone.currentMessageType = Phone.MessageType.Happy;
+        phoneText = "Congrats! Good read on that customer.";
+        Invoke(nameof(PopUpScreen), 4);
+        phone.Invoke(nameof(Phone.Ring),.5f);    
     }
 
     private void PopUpScreen()
@@ -40,6 +42,9 @@ public class PhonePopUp : MonoBehaviour
 
     public void ShowLoseScreen()
     {
-        phone.Invoke(nameof(Phone.Ring),3);
+        phone.currentMessageType = Phone.MessageType.Angry;
+        phoneText = "Hey these lead lists aren't cheap. Be careful next time.";
+        Invoke(nameof(PopUpScreen), 4);
+        phone.Invoke(nameof(Phone.Ring),.5f);
     }
 }
